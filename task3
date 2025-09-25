@@ -22,7 +22,7 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f'Accuracy: {accuracy*100:.2f}%')
 
-#trying to plot the tree and confusion matrix its new so i tried 
+#trying to plot the tree and confusion matrix its new to me so i tried 
 plt.figure(figsize=(20,10))
 plot_tree(model, feature_names=X.columns, class_names=['No', 'Yes'], filled=True)
 plt.show()
