@@ -1,0 +1,37 @@
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.tree import plot_tree
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, classification_report
+
+
+
+df = pd.read_csv('bank-full.csv', sep=';')
+
+df_encoded = pd.get_dummies(df, drop_first=True)
+X = df_encoded.drop('y_yes', axis=1)
+y = df_encoded['y_yes']
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+#traning tree model 
+model = DecisionTreeClassifier(max_depth=5,random_state=42 , class_weight='balanced')
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy*100:.2f}%')
+
+#trying to plot the tree and confusion matrix its new so i tried 
+plt.figure(figsize=(20,10))
+plot_tree(model, feature_names=X.columns, class_names=['No', 'Yes'], filled=True)
+plt.show()
+
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+
+
+df.head()
+df_encoded.info()
+df.isnull().sum()
+df.describe()
